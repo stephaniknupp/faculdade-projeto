@@ -7,13 +7,9 @@ import { ReactComponent as HeartSymbolIcon } from "../../assets/gray-heart.svg";
 import { ReactComponent as HeartFilledSymbolIcon } from "../../assets/filled-heart.svg";
 
 export const CupcakeList = () => {
-  // fetch("http://localhost:3000/api/getAll").then((response) => {
-  //   console.log(response);
-  // });
-
   const [post, setPost] = React.useState([
     {
-      id: "",
+      _id: "",
       name: "...",
       description: "...",
       stock: 1,
@@ -22,7 +18,7 @@ export const CupcakeList = () => {
       isFavorite: false,
     },
     {
-      id: "",
+      _id: "",
       name: "...",
       description: "...",
       stock: 1,
@@ -31,7 +27,7 @@ export const CupcakeList = () => {
       isFavorite: false,
     },
     {
-      id: "",
+      _id: "",
       name: "...",
       description: "...",
       stock: 1,
@@ -40,6 +36,8 @@ export const CupcakeList = () => {
       isFavorite: false,
     },
   ]);
+
+  const [favorites, setFavorites] = React.useState(true);
 
   const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -50,14 +48,8 @@ export const CupcakeList = () => {
     },
   });
 
-  // const cafeList: [{ name: string }]  = axios
-  //   .get("http://localhost:3000/api/getAll")
-  //   .then((res) => {
-  //     return res.data;
-  //   });
-
   type Cupcake = {
-    id: string;
+    _id: string;
     name: string;
     description: string;
     stock: number;
@@ -70,20 +62,27 @@ export const CupcakeList = () => {
     api.get("/getAll").then((response: AxiosResponse<Cupcake[]>) => {
       setPost(response.data);
     });
-  }, []);
+  }, [favorites]);
 
-  console.log("oie", post);
-  // console.log("aqui", post.name);
-
-  // if (post === ) {
-  //   return null;
-  // }
-
-  const addPokemonToFavorite = (id: string) => {
-    // setFavorites([...favorites, pokemon]);
-
+  const addCafeToFavorite = (id: string) => {
+    console.log("meu id: ", id);
     api
-      .patch("/update/656210423ece23d086b58968", {
+      .patch(`/update/${id}`, {
+        isFavorite: true,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("meu erro: ", error);
+      });
+
+    setFavorites(favorites == true ? false : true);
+  };
+
+  const removeCafeToFavorite = (id: string) => {
+    api
+      .patch(`/update/${id}`, {
         isFavorite: false,
       })
       .then((response) => {
@@ -93,33 +92,7 @@ export const CupcakeList = () => {
         console.log("meu erro: ", error);
       });
 
-    // api
-    //   .patch("/update/656210423ece23d086b58968", { isFavorite: true })
-    //   .catch((error) => console.log(error));
-
-    // api.get("/getAll").then((response: AxiosResponse<Cupcake[]>) => {
-    //   setPost(response.data);
-    // });
-
-    // .then((response: AxiosResponse<Cupcake[]>) => {
-    // setPost(response.data);
-    // });
-
-    // fetch("http://localhost:3000/api/update/656210423ece23d086b58968", {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ isFavorite: true }),
-    // });
-
-    // fetch("http://localhost:3000/api/update/656210423ece23d086b58968", {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ data: { isFavorite: true } }),
-    // });
+    setFavorites(favorites == true ? false : true);
   };
 
   return (
@@ -130,12 +103,12 @@ export const CupcakeList = () => {
           <TopWrapper>
             <Name>{v.name}</Name>
             {v.isFavorite ? (
-              <HeartIconFilled />
+              <HeartIconFilled onClick={() => removeCafeToFavorite(v._id)} />
             ) : (
-              <HeartIcon onClick={() => addPokemonToFavorite(v.id)} />
+              <HeartIcon onClick={() => addCafeToFavorite(v._id)} />
             )}
           </TopWrapper>
-          <button onClick={() => addPokemonToFavorite(v.id)}>me clica</button>
+          <button onClick={() => addCafeToFavorite(v._id)}>me clica</button>
           <Description>{v.description}</Description>
           <BottomWrapper>
             <span>R${v.price},00</span>
