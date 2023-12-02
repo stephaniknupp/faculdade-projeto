@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const cupcakeSchema = new mongoose.Schema({
+const cafeCardSchema = new mongoose.Schema({
   name: {
     required: true,
     type: String,
@@ -23,8 +23,8 @@ const cupcakeSchema = new mongoose.Schema({
   },
   isFavorite: {
     required: true,
-    type: boolean,
+    type: Boolean,
   },
 });
 
-module.exports = mongoose.model("Cupcake", cupcakeSchema);
+module.exports = mongoose.model("Cafe", cafeCardSchema);

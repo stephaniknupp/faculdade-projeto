@@ -1,7 +1,12 @@
 const express = require("express");
 const cupcakeModel = require("../models/cupcake");
+var cors = require("cors");
+// const database = require("..");
+// const { database } = require("../index");
 
 const router = express.Router();
+// const db = process.env.DATABASE_URL;
+// database
 
 //Post Method
 router.post("/post", async (req, res) => {
@@ -10,6 +15,8 @@ router.post("/post", async (req, res) => {
     description: req.body.description,
     imgUrl: req.body.imgUrl,
     stock: req.body.stock,
+    price: req.body.price,
+    isFavorite: req.body.isFavorite,
   });
 
   try {
@@ -25,6 +32,7 @@ router.get("/getAll", async (req, res) => {
   try {
     const data = await cupcakeModel.find();
     res.json(data);
+    console.log("batii");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -36,8 +44,29 @@ router.get("/getOne/:id", (req, res) => {
 });
 
 //Update by ID Method
-router.patch("/update/:id", (req, res) => {
-  res.send("Update by ID API");
+router.options("*", cors());
+router.patch("/update/:id", cors(), async (req, res) => {
+  // res.send("Update by ID API");
+  console.log("chegueii");
+  try {
+    cupcakeModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      function (err, docs) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Updated User : ", docs);
+          res.json(docs);
+        }
+      }
+    );
+    console.log("update bateu");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+
+  console.log("manga");
 });
 
 //Delete by ID Method
