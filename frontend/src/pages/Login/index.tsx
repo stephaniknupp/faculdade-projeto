@@ -1,14 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export function Login() {
+  const navigate = useNavigate();
+
   return (
     <Teste>
       <LoginWallpaper src="https://i.imgur.com/jDOuVh8.png" />
       <RightSide>
         <Title>Bem vindo a cafeteria gourmet</Title>
         <div>
-          <LoginButton>
+          <LoginButton onClick={() => navigate("/")}>
             <span>Sou cliente</span>
           </LoginButton>
 

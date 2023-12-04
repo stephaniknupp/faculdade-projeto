@@ -19,7 +19,7 @@ export const NavBar = () => {
         </NavItem>
         <NavItem onClick={() => navigate("/contact")}>Contato</NavItem>
       </Teste>
-      <UserLogo onClick={() => navigate("/user")} />
+      <UserLogo onClick={() => navigate("/login")} />
     </NavBarContainer>
   );
 };
