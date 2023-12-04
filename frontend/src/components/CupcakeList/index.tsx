@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { CupcakeCard } from "../CupcakeCard";
 import axios, { AxiosResponse } from "axios";
 import { ReactComponent as Logo } from "../../assets/logoBg.svg";
 import { ReactComponent as HeartSymbolIcon } from "../../assets/gray-heart.svg";
 import { ReactComponent as HeartFilledSymbolIcon } from "../../assets/filled-heart.svg";
+import { useNavigate } from "react-router-dom";
 
 export const CupcakeList = () => {
   const [post, setPost] = React.useState([
@@ -95,6 +95,12 @@ export const CupcakeList = () => {
     setFavorites(favorites == true ? false : true);
   };
 
+  const navigate = useNavigate();
+
+  const handleClick = (id: string) => {
+    navigate(`/compra/${id}`);
+  };
+
   return (
     <CupcakeListContainer>
       {post.map((v) => (
@@ -108,11 +114,10 @@ export const CupcakeList = () => {
               <HeartIcon onClick={() => addCafeToFavorite(v._id)} />
             )}
           </TopWrapper>
-          <button onClick={() => addCafeToFavorite(v._id)}>me clica</button>
           <Description>{v.description}</Description>
           <BottomWrapper>
             <span>R${v.price},00</span>
-            <BuyButton>
+            <BuyButton onClick={() => handleClick(v._id)}>
               <span>comprar</span>
             </BuyButton>
           </BottomWrapper>
@@ -163,7 +168,6 @@ const CupcakeImg = styled.img`
 `;
 
 const Name = styled.h2`
-  /* width: 254px; */
   height: 56px;
   margin: 0.5rem 0 0 1rem;
   font-family: "Inter", sans-serif;'Inter';
@@ -176,13 +180,15 @@ const Name = styled.h2`
 `;
 
 const HeartIcon = styled(HeartSymbolIcon)`
-  margin-top: -595px;
+  position: absolute;
+  margin-top: -525px;
   margin-left: -10px;
   scale: 0.08;
 `;
 
 const HeartIconFilled = styled(HeartFilledSymbolIcon)`
-  margin-top: -595px;
+  position: absolute;
+  margin-top: -525px;
   margin-left: -10px;
   scale: 0.08;
 `;
@@ -241,6 +247,7 @@ const Stock = styled.span`
 `;
 
 const TopWrapper = styled.div`
+  max-width: 100%;
   display: grid;
   grid: 150px 150px;
   height: 60px;

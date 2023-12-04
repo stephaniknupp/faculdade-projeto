@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-
+import { NavBar } from "../../components/Header";
 import styled from "styled-components";
 import { Footer } from "../../components/Footer";
+import { useParams } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
-import { ReactComponent as Logo } from "../../assets/logoBg.svg";
-import { ReactComponent as HeartSymbolIcon } from "../../assets/gray-heart.svg";
-import { ReactComponent as HeartFilledSymbolIcon } from "../../assets/filled-heart.svg";
-import { NavBar } from "../../components/Header";
+import pixQrCode from "../../assets/pix-qr-code.jpg";
 
-export function Favourites() {
+export function Compra() {
+  const parametros = useParams();
+
   const [post, setPost] = React.useState([
     {
       _id: "",
@@ -19,27 +19,7 @@ export function Favourites() {
       price: 0,
       isFavorite: false,
     },
-    {
-      _id: "",
-      name: "...",
-      description: "...",
-      stock: 1,
-      imgUrl: "shajd",
-      price: 0,
-      isFavorite: false,
-    },
-    {
-      _id: "",
-      name: "...",
-      description: "...",
-      stock: 1,
-      imgUrl: "shajd",
-      price: 0,
-      isFavorite: false,
-    },
   ]);
-
-  const [favorites, setFavorites] = React.useState(true);
 
   const api = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -62,73 +42,92 @@ export function Favourites() {
 
   useEffect(() => {
     api.get("/getAll").then((response: AxiosResponse<Cupcake[]>) => {
-      setPost(response.data.filter((v) => v.isFavorite === true));
+      setPost(response.data.filter((v) => v._id === parametros.id));
     });
-  }, [favorites]);
-
-  const addCafeToFavorite = (id: string) => {
-    console.log("meu id: ", id);
-    api
-      .patch(`/update/${id}`, {
-        isFavorite: true,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("meu erro: ", error);
-      });
-
-    setFavorites(favorites == true ? false : true);
-  };
-
-  const removeCafeToFavorite = (id: string) => {
-    api
-      .patch(`/update/${id}`, {
-        isFavorite: false,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("meu erro: ", error);
-      });
-
-    setFavorites(favorites == true ? false : true);
-  };
+  }, []);
 
   return (
-    <>
+    <PageWrapper>
       <NavBar />
-      <FavouritesTitle>Esses são os seus cafés favoritos =)</FavouritesTitle>
-      <CupcakeListContainer>
-        {post.map((v) => (
-          <CupcakeCardContainer>
-            <CupcakeImg src={v.imgUrl} />
-            <TopWrapper>
-              <Name>{v.name}</Name>
-              {v.isFavorite ? (
-                <HeartIconFilled onClick={() => removeCafeToFavorite(v._id)} />
-              ) : (
-                <HeartIcon onClick={() => addCafeToFavorite(v._id)} />
-              )}
-            </TopWrapper>
-            <Description>{v.description}</Description>
-            <BottomWrapper>
-              <span>R${v.price},00</span>
-              <BuyButton>
-                <span>comprar</span>
-              </BuyButton>
-            </BottomWrapper>
-          </CupcakeCardContainer>
-        ))}
-      </CupcakeListContainer>
+      <CompraTitle>Oba! Você comprou este café =)</CompraTitle>
+      <BlockContainer>
+        <CupcakeListContainer>
+          {post.map((v) => (
+            <CupcakeCardContainer>
+              <CupcakeImg src={v.imgUrl} />
+              <TopWrapper>
+                <Name>{v.name}</Name>
+              </TopWrapper>
+              <Description>{v.description}</Description>
+              <BottomWrapper>
+                <span>R${v.price},00</span>
+              </BottomWrapper>
+            </CupcakeCardContainer>
+          ))}
+        </CupcakeListContainer>
+        <PaymentSection>
+          <p>
+            Agora é só fazer o pagamento que nossa
+            <br />
+            equipe vai entregar o seu pedido
+          </p>
+          <PixQrCode src={pixQrCode} />
+          <p>Obrigada pela preferência =)</p>
+        </PaymentSection>
+      </BlockContainer>
       <Footer />
-    </>
+    </PageWrapper>
   );
 }
 
-const FavouritesTitle = styled.h1`
+const PixQrCode = styled.img`
+  width: 400px;
+  height: 400px;
+`;
+
+const BlockContainer = styled.div`
+  display: flex;
+  /* gap: 12rem; */
+  /* margin: 3rem; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* gap: 15px; */
+  /* row-gap: 30px; */
+`;
+
+const PaymentSection = styled.div`
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  > p {
+    text-align: left;
+    color: #3d2923;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
+const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const PageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CompraTitle = styled.h1`
   margin-top: 2rem;
   display: flex;
   align-items: center;
@@ -180,20 +179,6 @@ const Name = styled.h2`
   line-height: 43px;
 
   color: #000000;
-`;
-
-const HeartIcon = styled(HeartSymbolIcon)`
-  position: absolute;
-  margin-top: -525px;
-  margin-left: -10px;
-  scale: 0.08;
-`;
-
-const HeartIconFilled = styled(HeartFilledSymbolIcon)`
-  position: absolute;
-  margin-top: -525px;
-  margin-left: -10px;
-  scale: 0.08;
 `;
 
 const Description = styled.p`

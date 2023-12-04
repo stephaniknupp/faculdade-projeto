@@ -1,68 +1,88 @@
 import React from "react";
-import { NavBar } from "../../components/Header";
 import styled from "styled-components";
-import { Footer } from "../../components/Footer";
 
 export function Login() {
   return (
-    <PageWrapper>
-      <Title>Bem vindo a cafeteria gourmet</Title>
-      <div>
-        <Text>Sou cliente</Text>
-      </div>
-      <Text>Sou gerente</Text>
-    </PageWrapper>
+    <Teste>
+      <LoginWallpaper src="https://i.imgur.com/jDOuVh8.png" />
+      <RightSide>
+        <Title>Bem vindo a cafeteria gourmet</Title>
+        <div>
+          <LoginButton>
+            <span>Sou cliente</span>
+          </LoginButton>
+
+          <LoginButtonManager>
+            <span>Sou gerente</span>
+          </LoginButtonManager>
+        </div>
+      </RightSide>
+    </Teste>
   );
 }
 
-const PageWrapper = styled.div`
-  /* display: flex; */
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
+const LoginButtonManager = styled.button`
+  width: 202px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  font-size: 20px;
+  margin-right: 2rem;
+
+  > span {
+    color: #3d2923;
+    font-family: "Inter", sans-serif;inter;
+  }
+`;
+
+const LoginButton = styled.button`
+  width: 202px;
+  height: 40px;
+  background: #3d2923;
+  border: 1px solid #3d2923;
+  border-radius: 20px;
+  font-size: 20px;
+  margin-right: 2rem;
+
+  > span {
+    color: #ffffff;
+    font-family: "Inter", sans-serif;inter;
+  }
+`;
+
+const Teste = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  height: 100vh;
+`;
+
+const LoginWallpaper = styled.img`
+  width: 50%;
+  display: flex;
+  justify-content: flex-start;
   background-image: url("https://i.imgur.com/jDOuVh8.png");
-  /* background-attachment: fixed; */
   background-size: cover;
-  /* background-repeat: no-repeat; */
-  position: fixed;
-  /* width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  background: rgba(51, 51, 51, 0.7);
-  z-index: 10; */
+  background-position: center;
+`;
+
+const RightSide = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 1rem;
 `;
 
 const Title = styled.h1`
-  padding-top: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #3d2923;
   font-family: Inter;
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-bottom: 4rem;
-`;
-
-const Text = styled.p`
-  padding-top: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-family: Inter;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-bottom: 3rem;
-`;
-
-const Division = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 5rem 10rem;
 `;

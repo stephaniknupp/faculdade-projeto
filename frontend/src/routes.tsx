@@ -6,8 +6,7 @@ import { Home } from "./pages/Home";
 import { Favourites } from "./pages/Favourites";
 import { User } from "./pages/User";
 import { Login } from "./pages/Login";
-// import TeacherList from './pages/TeacherList';
-// import TeacherForm from './pages/TeacherForm';
+import { Compra } from "./pages/Compra";
 
 function Rotas() {
   return (
@@ -20,6 +19,7 @@ function Rotas() {
         <Route path="/favourites" element={<Favourites />} />
         <Route path="/user" element={<User />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/compra/:id" element={<Compra />} />
       </Routes>
     </BrowserRouter>
   );
