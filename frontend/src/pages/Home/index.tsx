@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { CupcakeCard } from "../../components/CupcakeCard";
-import { CupcakeList } from "../../components/CupcakeList";
+import { CafeCard } from "../../components/CafeCard";
+import { CafeList } from "../../components/CafeList";
 import { NavBar } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 
@@ -9,7 +9,7 @@ export function Home() {
   return (
     <div>
       <NavBar />
-      <CupcakeList />
+      <CafeList />
       {/* <h1>Home</h1>
       <span>oi bebeb bebebe be ebb</span> */}
       <Footer />

@@ -11,7 +11,7 @@ export function Contact() {
         <Title>Página de Contato</Title>
         <Text>Nosso whatsapp: (21)9999-9999</Text>
         <Text>Nosso telefone: 2222-2222</Text>
-        <Text>Nosso e-mail: contato@cafeteriagourmet.com.br</Text>
+        <Text>Nosso e-mail: contato@Cafeteriagourmet.com.br</Text>
         <Text>
           Nosso endereço: Rua Brizola, Barros Filho, Rio de Janeiro, RJ.
         </Text>
@@ -21,7 +21,7 @@ export function Contact() {
       <Division>
         <Title>Sobre nós</Title>
         <Text>
-          Bem-vindo à nossa cafeteria gourmet, um refúgio para os amantes de
+          Bem-vindo à nossa Cafeteria gourmet, um refúgio para os amantes de
           café e apreciadores de sabores excepcionais. Aqui, dedicamos nossa
           paixão e expertise na arte de preparar as melhores xícaras de café,
           utilizando grãos cuidadosamente selecionados e técnicas de preparo
@@ -31,7 +31,7 @@ export function Contact() {
           complexos e a textura delicada se combinam em perfeita harmonia.
           Estamos honrados em compartilhar com você nossa paixão pelo café e
           convidamos você a explorar nossos sabores e vivenciar a magia que está
-          por trás de cada xícara. Afinal, nossa cafeteria gourmet é para
+          por trás de cada xícara. Afinal, nossa Cafeteria gourmet é para
           celebrar a excelência, a arte e o prazer de apreciar uma das bebidas
           mais amadas do mundo.
         </Text>

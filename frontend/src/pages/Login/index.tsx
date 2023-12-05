@@ -9,13 +9,13 @@ export function Login() {
     <Teste>
       <LoginWallpaper src="https://i.imgur.com/jDOuVh8.png" />
       <RightSide>
-        <Title>Bem vindo a cafeteria gourmet</Title>
+        <Title>Bem vindo a Cafeteria gourmet</Title>
         <div>
           <LoginButton onClick={() => navigate("/")}>
             <span>Sou cliente</span>
           </LoginButton>
 
-          <LoginButtonManager>
+          <LoginButtonManager onClick={() => navigate("/manager")}>
             <span>Sou gerente</span>
           </LoginButtonManager>
         </div>

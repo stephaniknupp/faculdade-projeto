@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
 import { NavBar } from "../../components/Header";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Footer } from "../../components/Footer";
 import { useParams } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import pixQrCode from "../../assets/pix-qr-code.jpg";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { FormControl, FormLabel } from "@mui/material";
+import { ReactComponent as Logo } from "../../assets/logoBg.svg";
+import { ReactComponent as UserLogo } from "../../assets/userLogo.svg";
 
-export function Compra() {
+export function EditCard() {
+  const navigate = useNavigate();
   const parametros = useParams();
 
   const [post, setPost] = React.useState([
@@ -30,6 +37,8 @@ export function Compra() {
     },
   });
 
+  const [edited, setChanges] = React.useState(true);
+
   type Cafe = {
     _id: string;
     name: string;
@@ -40,16 +49,77 @@ export function Compra() {
     isFavorite: boolean;
   };
 
+  const editCard = (event) => {
+    // console.log("meu id: ", id);
+    event.preventDefault();
+
+    // console.log("meu valor: ", CafeCardForm.name.value.toString());
+    console.log("meu valor: ", event);
+    console.log("campo mudado: ", event.target.name.value);
+    console.log("campo inalterado: ", event.target.description.value);
+
+    const name = event.target.name.value;
+    const description = event.target.description.value;
+    const price = event.target.price.value;
+    const imgUrl = event.target.imgUrl.value;
+
+    const teste = {
+      name,
+      description,
+      price,
+      imgUrl,
+    };
+
+    const updated = Object.fromEntries(
+      Object.entries(teste).filter(([_, v]) => v !== "")
+    );
+
+    // const campos = [name, description, price, imgUrl];
+
+    // const changedCampos = campos.filter((item) => item !== "");
+
+    // const objectChangedCampos = changedCampos.map((str) => ({
+    //   str,
+    // }));
+
+    // const objectChangedCampos = { ...changedCampos };
+    // console.log("campos enviados: ", objectChangedCampos);
+
+    console.log("teste", updated);
+
+    api
+      .patch(`/update/${parametros.id}`, { ...updated })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("meu erro: ", error);
+      });
+
+    setChanges(edited == true ? false : true);
+  };
+
   useEffect(() => {
     api.get("/getAll").then((response: AxiosResponse<Cafe[]>) => {
       setPost(response.data.filter((v) => v._id === parametros.id));
     });
-  }, []);
+  }, [edited]);
 
   return (
     <PageWrapper>
-      <NavBar />
-      <CompraTitle>Oba! Você comprou este café =)</CompraTitle>
+      <NavBarContainer>
+        <div>
+          <BrandLogo onClick={() => navigate("/manager")} />
+        </div>
+        <Teste>
+          <NavItem onClick={() => navigate("/manager")}>Painel</NavItem>
+          <NavItem onClick={() => navigate("/newCafe")}>
+            Cadastrar Novo Café
+          </NavItem>
+        </Teste>
+        <UserLogo onClick={() => navigate("/login")} />
+      </NavBarContainer>
+      <CompraTitle>Editar dados do café</CompraTitle>
       <BlockContainer>
         <CafeListContainer>
           {post.map((v) => (
@@ -66,19 +136,82 @@ export function Compra() {
           ))}
         </CafeListContainer>
         <PaymentSection>
-          <p>
+          {/* <p>
             Agora é só fazer o pagamento que nossa
             <br />
             equipe vai entregar o seu pedido
           </p>
           <PixQrCode src={pixQrCode} />
-          <p>Obrigada pela preferência =)</p>
+          <p>Obrigada pela preferência =)</p> */}
+
+          <form id="CafeCardForm" onSubmit={editCard}>
+            <FormControl>
+              <FormLabel>Nome</FormLabel>
+              <TextField id="name"></TextField>
+              <Layout></Layout>
+              <FormLabel>Descrição</FormLabel>
+              <TextField id="description"></TextField>
+              <Layout></Layout>
+              <FormLabel>Preço R$</FormLabel>
+              <TextField id="price"></TextField>
+              <Layout></Layout>
+              <FormLabel>Imagem url</FormLabel>
+              <TextField id="imgUrl"></TextField>
+
+              {/* <Button onClick={(e) => editCard(e)} type="button">
+                Submit
+              </Button> */}
+              <Button type="submit">Alterar</Button>
+            </FormControl>
+          </form>
         </PaymentSection>
       </BlockContainer>
       <Footer />
     </PageWrapper>
   );
 }
+
+const NavBarContainer = styled.header`
+  width: 100%;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  position: relative;
+  background-color: #3d2923;
+`;
+
+const Teste = styled.div`
+  width: 100%;
+  max-width: 1112px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+`;
+
+const BrandLogo = styled(Logo)`
+  width: 311px;
+  height: 14rem;
+  min-height: 60px;
+  margin-top: 2rem;
+  margin-right: 6rem;
+  margin-left: 8rem;
+  padding: 2rem 0;
+`;
+
+const NavItem = styled.span`
+  font-family: "Inter", sans-serif;"Inter", sans-serif;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  font-size: 40px;
+  color: #bb7654;
+`;
+
+const Layout = styled.div`
+  margin: 0.5rem;
+`;
 
 const PixQrCode = styled.img`
   width: 400px;

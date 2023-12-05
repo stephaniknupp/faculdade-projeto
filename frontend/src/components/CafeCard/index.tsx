@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/logoBg.svg";
 import { ReactComponent as HeartSymbolIcon } from "../../assets/gray-heart.svg";
 
-export const CupcakeCard = () => {
+export const CafeCard = () => {
   return (
-    <CupcakeCardContainer>
-      <CupcakeImg src={"https://i.imgur.com/4S4wvk9.png"} />
+    <CafeCardContainer>
+      <CafeImg src={"https://i.imgur.com/4S4wvk9.png"} />
       <TopWrapper>
         <Name>Café Expresso</Name>
         <HeartIcon />
@@ -21,11 +21,11 @@ export const CupcakeCard = () => {
           <span>comprar</span>
         </BuyButton>
       </BottomWrapper>
-    </CupcakeCardContainer>
+    </CafeCardContainer>
   );
 };
 
-const CupcakeCardContainer = styled.div`
+const CafeCardContainer = styled.div`
   width: 451px;
   height: 615px;
   padding: 1rem;
@@ -33,7 +33,7 @@ const CupcakeCardContainer = styled.div`
   border-radius: 70px;
 `;
 
-const CupcakeImg = styled.img`
+const CafeImg = styled.img`
   width: 419px;
   height: 358px;
   left: 34px;

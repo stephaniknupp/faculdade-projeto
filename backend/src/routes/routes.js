@@ -1,5 +1,5 @@
 const express = require("express");
-const cupcakeModel = require("../models/cupcake");
+const CafeModel = require("../models/cafe");
 var cors = require("cors");
 // const database = require("..");
 // const { database } = require("../index");
@@ -10,7 +10,7 @@ const router = express.Router();
 
 //Post Method
 router.post("/post", async (req, res) => {
-  const data = new cupcakeModel({
+  const data = new CafeModel({
     name: req.body.name,
     description: req.body.description,
     imgUrl: req.body.imgUrl,
@@ -30,7 +30,7 @@ router.post("/post", async (req, res) => {
 //Get all Method
 router.get("/getAll", async (req, res) => {
   try {
-    const data = await cupcakeModel.find();
+    const data = await CafeModel.find();
     res.json(data);
     console.log("batii");
   } catch (error) {
@@ -49,18 +49,14 @@ router.patch("/update/:id", cors(), async (req, res) => {
   // res.send("Update by ID API");
   console.log("chegueii");
   try {
-    cupcakeModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      function (err, docs) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("Updated User : ", docs);
-          res.json(docs);
-        }
+    CafeModel.findByIdAndUpdate(req.params.id, req.body, function (err, docs) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Updated User : ", docs);
+        res.json(docs);
       }
-    );
+    });
     console.log("update bateu");
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -71,7 +67,20 @@ router.patch("/update/:id", cors(), async (req, res) => {
 
 //Delete by ID Method
 router.delete("/delete/:id", (req, res) => {
-  res.send("Delete by ID API");
+  // res.send("Delete by ID API");
+  try {
+    CafeModel.findByIdAndDelete(req.params.id, function (err, docs) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Deleted User : ", docs);
+        res.json(docs);
+      }
+    });
+    console.log("update bateu");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 module.exports = router;

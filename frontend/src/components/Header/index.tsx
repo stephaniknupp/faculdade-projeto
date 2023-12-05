@@ -26,18 +26,11 @@ export const NavBar = () => {
 
 const NavBarContainer = styled.header`
   width: 100%;
-  /* height: 70px; */
   height: 160px;
-  /* padding: 0 0; */
   display: flex;
   justify-content: center;
-  /* grid: 150px 150px; */
-  /* gridt: 150px 150px; */
   place-items: center;
-  /* grid-direction: columns; */
-  /* grid-template-rows: 70px 70px 70px 70px; */
   position: relative;
-  /* box-sizing: border-box; */
   background-color: #3d2923;
 `;
 
@@ -47,10 +40,6 @@ const Teste = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 1rem;
-  /* grid-template-columns: max-content 60%; */
-  /* justify-content: space-between; */
-  /* margin: 0 auto; */
-  /* align-items: center; */
 `;
 
 const BrandLogo = styled(Logo)`
@@ -60,7 +49,6 @@ const BrandLogo = styled(Logo)`
   margin-top: 2rem;
   margin-right: 6rem;
   margin-left: 8rem;
-  /* margin-left: -100rem; */
   padding: 2rem 0;
 `;
 

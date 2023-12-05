@@ -1,21 +1,12 @@
 import React, { useEffect } from "react";
-
 import styled from "styled-components";
-import { Footer } from "../../components/Footer";
 import axios, { AxiosResponse } from "axios";
 import { ReactComponent as Logo } from "../../assets/logoBg.svg";
 import { ReactComponent as HeartSymbolIcon } from "../../assets/gray-heart.svg";
 import { ReactComponent as HeartFilledSymbolIcon } from "../../assets/filled-heart.svg";
-import { NavBar } from "../../components/Header";
 import { useNavigate } from "react-router-dom";
 
-export function Favourites() {
-  const navigate = useNavigate();
-
-  const handleClick = (id: string) => {
-    navigate(`/compra/${id}`);
-  };
-
+export const CafeList = () => {
   const [post, setPost] = React.useState([
     {
       _id: "",
@@ -69,7 +60,7 @@ export function Favourites() {
 
   useEffect(() => {
     api.get("/getAll").then((response: AxiosResponse<Cafe[]>) => {
-      setPost(response.data.filter((v) => v.isFavorite === true));
+      setPost(response.data);
     });
   }, [favorites]);
 
@@ -104,49 +95,37 @@ export function Favourites() {
     setFavorites(favorites == true ? false : true);
   };
 
-  return (
-    <>
-      <NavBar />
-      <FavouritesTitle>Esses são os seus cafés favoritos =)</FavouritesTitle>
-      <CafeListContainer>
-        {post.map((v) => (
-          <CafeCardContainer>
-            <CafeImg src={v.imgUrl} />
-            <TopWrapper>
-              <Name>{v.name}</Name>
-              {v.isFavorite ? (
-                <HeartIconFilled onClick={() => removeCafeToFavorite(v._id)} />
-              ) : (
-                <HeartIcon onClick={() => addCafeToFavorite(v._id)} />
-              )}
-            </TopWrapper>
-            <Description>{v.description}</Description>
-            <BottomWrapper>
-              <span>R${v.price},00</span>
-              <BuyButton onClick={() => handleClick(v._id)}>
-                <span>comprar</span>
-              </BuyButton>
-            </BottomWrapper>
-          </CafeCardContainer>
-        ))}
-      </CafeListContainer>
-      <Footer />
-    </>
-  );
-}
+  const navigate = useNavigate();
 
-const FavouritesTitle = styled.h1`
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #3d2923;
-  font-family: Inter;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
+  const handleClick = (id: string) => {
+    navigate(`/compra/${id}`);
+  };
+
+  return (
+    <CafeListContainer>
+      {post.map((v) => (
+        <CafeCardContainer>
+          <CafeImg src={v.imgUrl} />
+          <TopWrapper>
+            <Name>{v.name}</Name>
+            {v.isFavorite ? (
+              <HeartIconFilled onClick={() => removeCafeToFavorite(v._id)} />
+            ) : (
+              <HeartIcon onClick={() => addCafeToFavorite(v._id)} />
+            )}
+          </TopWrapper>
+          <Description>{v.description}</Description>
+          <BottomWrapper>
+            <span>R${v.price},00</span>
+            <BuyButton onClick={() => handleClick(v._id)}>
+              <span>comprar</span>
+            </BuyButton>
+          </BottomWrapper>
+        </CafeCardContainer>
+      ))}
+    </CafeListContainer>
+  );
+};
 
 const CafeListContainer = styled.div`
   margin: 3rem;
@@ -177,7 +156,6 @@ const CafeImg = styled.img`
 `;
 
 const Name = styled.h2`
-  /* width: 254px; */
   height: 56px;
   margin: 0.5rem 0 0 1rem;
   font-family: "Inter", sans-serif;'Inter';
@@ -257,6 +235,7 @@ const Stock = styled.span`
 `;
 
 const TopWrapper = styled.div`
+  max-width: 100%;
   display: grid;
   grid: 150px 150px;
   height: 60px;
